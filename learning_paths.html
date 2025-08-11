@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#add8e6", "id": "python_basics", "label": "Python Basics", "shape": "dot", "title": "Domain: programming\nDifficulty: beginner\nDescription: Basic Python programming concepts"}, {"color": "#add8e6", "id": "data_types_variables", "label": "Data Types Variables", "shape": "dot", "title": "Domain: programming\nDifficulty: beginner\nDescription: Python data types and variables"}, {"color": "#add8e6", "id": "control_flow", "label": "Control Flow", "shape": "dot", "title": "Domain: programming\nDifficulty: beginner\nDescription: Control flow in Python"}, {"color": "#add8e6", "id": "functions_basics", "label": "Functions Basics", "shape": "dot", "title": "Domain: programming\nDifficulty: beginner\nDescription: Python functions fundamentals"}, {"color": "#add8e6", "id": "data_structures", "label": "Data Structures", "shape": "dot", "title": "Domain: programming\nDifficulty: intermediate\nDescription: Python data structures"}, {"color": "#add8e6", "id": "file_handling", "label": "File Handling", "shape": "dot", "title": "Domain: programming\nDifficulty: intermediate\nDescription: File handling in Python"}, {"color": "#add8e6", "id": "error_handling", "label": "Error Handling", "shape": "dot", "title": "Domain: programming\nDifficulty: intermediate\nDescription: Error handling and debugging"}, {"color": "#add8e6", "id": "oop_basics", "label": "Oop Basics", "shape": "dot", "title": "Domain: programming\nDifficulty: intermediate\nDescription: Object-oriented programming basics"}, {"color": "#add8e6", "id": "advanced_oop", "label": "Advanced Oop", "shape": "dot", "title": "Domain: programming\nDifficulty: advanced\nDescription: Advanced OOP concepts"}, {"color": "#90EE90", "id": "economics_101", "label": "Economics 101", "shape": "dot", "title": "Domain: finance\nDifficulty: beginner\nDescription: Basic economic concepts"}, {"color": "#90EE90", "id": "stock_market_basics", "label": "Stock Market Basics", "shape": "dot", "title": "Domain: finance\nDifficulty: beginner\nDescription: Stock market fundamentals"}, {"color": "#90EE90", "id": "financial_statements", "label": "Financial Statements", "shape": "dot", "title": "Domain: finance\nDifficulty: intermediate\nDescription: Understanding financial statements"}, {"color": "#90EE90", "id": "technical_analysis", "label": "Technical Analysis", "shape": "dot", "title": "Domain: finance\nDifficulty: intermediate\nDescription: Technical analysis basics"}, {"color": "#90EE90", "id": "financial_analysis_basics", "label": "Financial Analysis Basics", "shape": "dot", "title": "Domain: finance\nDifficulty: intermediate\nDescription: Basic financial analysis"}, {"color": "#90EE90", "id": "python_finance", "label": "Python Finance", "shape": "dot", "title": "Domain: finance\nDifficulty: intermediate\nDescription: Python for financial analysis"}, {"color": "#90EE90", "id": "algorithmic_trading", "label": "Algorithmic Trading", "shape": "dot", "title": "Domain: finance\nDifficulty: advanced\nDescription: Algorithmic trading with Python"}, {"color": "#FA8072", "id": "cell_biology_basics", "label": "Cell Biology Basics", "shape": "dot", "title": "Domain: biology\nDifficulty: beginner\nDescription: Basic cell biology"}, {"color": "#FA8072", "id": "microscopy_basics", "label": "Microscopy Basics", "shape": "dot", "title": "Domain: biology\nDifficulty: beginner\nDescription: Basic microscopy concepts"}, {"color": "#FA8072", "id": "image_formats", "label": "Image Formats", "shape": "dot", "title": "Domain: biology\nDifficulty: beginner\nDescription: Understanding image formats and metadata"}, {"color": "#FA8072", "id": "image_analysis_basics", "label": "Image Analysis Basics", "shape": "dot", "title": "Domain: biology\nDifficulty: intermediate\nDescription: Basic image analysis"}, {"color": "#FA8072", "id": "image_processing", "label": "Image Processing", "shape": "dot", "title": "Domain: biology\nDifficulty: intermediate\nDescription: Image processing techniques"}, {"color": "#FA8072", "id": "python_imaging", "label": "Python Imaging", "shape": "dot", "title": "Domain: biology\nDifficulty: intermediate\nDescription: Python for image analysis"}, {"color": "#FA8072", "id": "advanced_bioimage", "label": "Advanced Bioimage", "shape": "dot", "title": "Domain: biology\nDifficulty: advanced\nDescription: Advanced bioimage analysis"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "python_basics", "title": "Weight: 1.0", "to": "data_types_variables"}, {"arrows": "to", "from": "python_basics", "title": "Weight: 0.7", "to": "python_finance"}, {"arrows": "to", "from": "python_basics", "title": "Weight: 0.7", "to": "python_imaging"}, {"arrows": "to", "from": "data_types_variables", "title": "Weight: 1.0", "to": "control_flow"}, {"arrows": "to", "from": "control_flow", "title": "Weight: 1.0", "to": "functions_basics"}, {"arrows": "to", "from": "functions_basics", "title": "Weight: 0.9", "to": "data_structures"}, {"arrows": "to", "from": "data_structures", "title": "Weight: 0.8", "to": "file_handling"}, {"arrows": "to", "from": "data_structures", "title": "Weight: 0.8", "to": "error_handling"}, {"arrows": "to", "from": "data_structures", "title": "Weight: 0.8", "to": "oop_basics"}, {"arrows": "to", "from": "data_structures", "title": "Weight: 0.7", "to": "python_finance"}, {"arrows": "to", "from": "data_structures", "title": "Weight: 0.7", "to": "python_imaging"}, {"arrows": "to", "from": "oop_basics", "title": "Weight: 0.7", "to": "advanced_oop"}, {"arrows": "to", "from": "economics_101", "title": "Weight: 1.0", "to": "stock_market_basics"}, {"arrows": "to", "from": "stock_market_basics", "title": "Weight: 0.9", "to": "financial_statements"}, {"arrows": "to", "from": "stock_market_basics", "title": "Weight: 0.8", "to": "technical_analysis"}, {"arrows": "to", "from": "financial_statements", "title": "Weight: 0.9", "to": "financial_analysis_basics"}, {"arrows": "to", "from": "technical_analysis", "title": "Weight: 0.7", "to": "python_finance"}, {"arrows": "to", "from": "financial_analysis_basics", "title": "Weight: 0.8", "to": "python_finance"}, {"arrows": "to", "from": "python_finance", "title": "Weight: 0.6", "to": "algorithmic_trading"}, {"arrows": "to", "from": "cell_biology_basics", "title": "Weight: 1.0", "to": "microscopy_basics"}, {"arrows": "to", "from": "microscopy_basics", "title": "Weight: 0.9", "to": "image_formats"}, {"arrows": "to", "from": "image_formats", "title": "Weight: 0.9", "to": "image_analysis_basics"}, {"arrows": "to", "from": "image_analysis_basics", "title": "Weight: 0.8", "to": "image_processing"}, {"arrows": "to", "from": "image_processing", "title": "Weight: 0.8", "to": "python_imaging"}, {"arrows": "to", "from": "python_imaging", "title": "Weight: 0.6", "to": "advanced_bioimage"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
